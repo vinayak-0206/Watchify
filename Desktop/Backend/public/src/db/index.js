@@ -4,8 +4,14 @@ var dotenv = require('dotenv')
 dotenv.config();
 const mongoURI = process.env.MONGODB_URI;
 
-async function connectToMongo(){
-    await mongoose.connect(mongoURI).then(()=> console.log("Connected to Mongo Successfully")).catch(err => console.log(err));
-  }
+connectToMongo()
+.then(()=>{
+    app.listen(process.env.PORT || 8000,()=>{
+        console.log('Server is running at port:${process.env.PORT}');
+    })
+})
+.catch((err)=>{
+    console.log("MongoDB connection failed !!!",err);
+})
   
 module.exports = connectToMongo;
